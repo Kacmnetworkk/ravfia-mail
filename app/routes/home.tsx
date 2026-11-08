@@ -25,7 +25,7 @@ import {
 import { queryKeys } from "~/queries/keys";
 
 export function meta() {
-	return [{ title: "Agentic Inbox" }];
+	return [{ title: "Ravfia Mail" }];
 }
 
 export default function HomeRoute() {
@@ -144,7 +144,14 @@ export default function HomeRoute() {
 			<div className="mx-auto max-w-2xl px-4 py-8 md:px-6 md:py-16">
 				<div className="mb-8">
 					<div className="flex items-center justify-between">
-						<h1 className="text-2xl font-bold text-kumo-default">Mailboxes</h1>
+						<div>
+							<div className="bg-black px-4 py-3 mb-4">
+								<div className="text-white font-extrabold tracking-wide text-lg leading-none">RAV<span className="text-[#F2C230]">FIA</span> MAIL</div>
+								<div className="text-[#F2C230] text-[10px] font-semibold tracking-[0.2em] mt-1">STRATEGIC OPERATIONS LLC</div>
+							</div>
+							<h1 className="text-2xl font-bold text-kumo-default">Mailboxes</h1>
+							<p className="text-xs text-kumo-subtle mt-1 tracking-wide">PRECISION IN THE FIELD. ACCOUNTABILITY IN DELIVERY.</p>
+						</div>
 						{!isConfigured && (
 							<Button
 								variant="primary"
