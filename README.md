@@ -1,98 +1,56 @@
-<div align="center">
-  <h1>Ravfia Mail</h1>
-  <p><em>Ravfia Strategic Operations LLC email — a self-hosted email client with an AI agent, running entirely on Cloudflare Workers. Based on Cloudflare's Agentic Inbox (Apache 2.0).</em></p>
-</div>
+# Ravfia Mail
 
-Agentic Inbox lets you send, receive, and manage emails through a modern web interface -- all powered by your own Cloudflare account. Incoming emails arrive via [Cloudflare Email Routing](https://developers.cloudflare.com/email-routing/), each mailbox is isolated in its own [Durable Object](https://developers.cloudflare.com/durable-objects/) with a SQLite database, and attachments are stored in [R2](https://developers.cloudflare.com/r2/).
+Ravfia Mail is the business email system for Ravfia Strategic Operations LLC (Ravfia Line Striping) in Las Vegas, Nevada. It runs on our own domain and our own Cloudflare account — no per-seat email bill, and the mail stays in our system.
 
-An **AI-powered Email Agent** can read your inbox, search conversations, and draft replies -- built with the [Cloudflare Agents SDK](https://developers.cloudflare.com/agents/) and [Workers AI](https://developers.cloudflare.com/workers-ai/).
+Live at: https://inbox.ravfiastrategic0perations.com
 
-![Agentic Inbox screenshot](./demo_app.png)
+## Mailboxes
 
+All on @ravfiastrategic0perations.com:
 
-Read the blog post to learn more about Cloudflare Email Service and how to use it with the Agents SDK, MCP, and from the Wrangler CLI: [Email for Agents](https://blog.cloudflare.com/email-for-agents/).
+- `mail@` — general inbox, the public contact address
+- `admin@` — admin and account mail
+- `billing@` — invoices and payment questions
+- `finance@` — financing and document requests
 
-## How to setup
+Sign-in is restricted to Kurt's own addresses. Nobody else can open the inbox.
 
-**Important**: Clicking the 'Deploy to Cloudflare' button is only one part of the setup. You must follow the **After deploying** steps as well. For a full step-by-step guide with screenshots, refer to this comment: 
-https://github.com/cloudflare/agentic-inbox/issues/4#issuecomment-4269118513
+## What it does
 
-### To set up
+- Send and receive business email in a web inbox, with folders, search, threading, and attachments
+- Each mailbox is stored separately, with its own history
+- An AI assistant reads new mail and drafts replies in Kurt's plain voice. The drafts follow fixed rules: never quote prices, offer a free estimate, and ask for the property address and lot details
+- On `mail@` and `admin@`, a reply that passes the safety rules sends on its own. Anything flagged as spam or bulk mail, and anything that would need a price or a promised date, stays a draft for Kurt to review. `billing@` and `finance@` are draft-only, always
+- Per-mailbox signatures: Kurt Anthony Morales, Ravfia Strategic Operations LLC, (855) 686-6011
+- Dark interface with larger text, built for quick reading in the field
 
-1. Deploy to Cloudflare. The deploy flow will automatically provision R2, Durable Objects, and Workers AI. You'll be prompted for **DOMAINS**, which is the domain (yourdomain.com) you want to receive emails for (email@yourdomain.com).
+## How it runs
 
-     [![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/cloudflare/agentic-inbox)
+Ravfia Mail is one Cloudflare Worker (`ravfia-mail`). Incoming mail reaches it through Email Routing on ravfiastrategic0perations.com, with a catch-all rule so no address on the domain loses mail. Deploys run through Wrangler.
 
-2. **Configure Cloudflare Access** -- Enable [one-click Cloudflare Access](https://developers.cloudflare.com/changelog/post/2025-10-03-one-click-access-for-workers/) on your Worker under Settings > Domains & Routes. The modal will show your `POLICY_AUD` and `TEAM_DOMAIN` values. `TEAM_DOMAIN` can be either your Access team URL or the full `.../cdn-cgi/access/certs` URL. **You must set these as secrets for your Worker.**
-3. **Set up Email Routing** -- In the Cloudflare dashboard, go to your domain > Email Routing and create a catch-all rule that forwards to this Worker
-4. **Enable Email Service** -- The worker needs the `send_email` binding to send outbound emails. See [Email Service docs](https://developers.cloudflare.com/email-routing/email-workers/send-email-workers/)
-5. **Create a mailbox** -- Visit your deployed app and create a mailbox for any address on your domain (e.g. `hello@example.com`)
+There is also an MCP endpoint at `/mcp`, so an approved AI tool can read and send mail through the API. Access to it is locked down the same way as the web inbox.
 
-### Troubleshooting Access
+## Development
 
-1. If you see `Invalid or expired Access token`, that usually means `POLICY_AUD` or `TEAM_DOMAIN` secrets are incorrect.
-   * Resolution: [turn Access off and back on for the Worker to get the Access modal again](https://developers.cloudflare.com/changelog/post/2025-10-03-one-click-access-for-workers/), then reset your Worker secrets to the latest `POLICY_AUD` and `TEAM_DOMAIN` values shown there.
-2. If you see `Cloudflare Access must be configured in production`, this application is intentionally enforcing Cloudflare Access so your inbox is not exposed to anyone on the internet.
-   * Resolution: enable Access using [one-click Cloudflare Access for Workers](https://developers.cloudflare.com/changelog/post/2025-10-03-one-click-access-for-workers/), then set the `POLICY_AUD` and `TEAM_DOMAIN` Worker secrets from the modal values.
-
-## Features
-
-- **Full email client** — Send and receive emails via Cloudflare Email Routing with a rich text composer, reply/forward threading, folder organization, search, and attachments
-- **Per-mailbox isolation** — Each mailbox runs in its own Durable Object with SQLite storage and R2 for attachments
-- **Built-in AI agent** — Side panel with 9 email tools for reading, searching, drafting, and sending
-- **Auto-draft on new email** — Agent automatically reads inbound emails and generates draft replies, always requiring explicit confirmation before sending
-- **Configurable and persistent** — Custom system prompts per mailbox, persistent chat history, streaming markdown responses, and tool call visibility
-
-## Stack
-
-- **Frontend:** React 19, React Router v7, Tailwind CSS, Zustand, TipTap, `@cloudflare/kumo`
-- **Backend:** Hono, Cloudflare Workers, Durable Objects (SQLite), R2, Email Routing
-- **AI Agent:** Cloudflare Agents SDK (`AIChatAgent`), AI SDK v6, Workers AI (`@cf/moonshotai/kimi-k2.5`), `react-markdown` + `remark-gfm`
-- **Auth:** Cloudflare Access JWT validation (required outside local development)
-
-## Getting Started
+You need Node.js 20 and npm.
 
 ```bash
-npm install
-npm run dev
+npm install     # install dependencies
+npm run dev     # local dev server
+npm run build   # production build
+npm run typecheck
+npm run deploy  # build + wrangler deploy
 ```
 
-### Configuration
+Copy `.dev.vars.example` to `.dev.vars` for local secrets. Never commit real secrets.
 
-1. Set your domain in `wrangler.jsonc`
-2. Create an R2 bucket named `agentic-inbox`: `wrangler r2 bucket create agentic-inbox`
+## CI/CD
 
-### Deploy
+- `.github/workflows/ci.yml` — on every push and pull request: install, typecheck, build.
+- `.github/workflows/deploy.yml` — on push to `main` (or run by hand): build and deploy with Wrangler. It needs two repository secrets, `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`, set under Settings → Secrets and variables → Actions.
 
-```bash
-npm run deploy
-```
+Use one deploy route only. If the Worker is also connected to GitHub in the Cloudflare dashboard, pushes to `main` will deploy twice — turn one route off.
 
-## Prerequisites
+## License / Notices
 
-- Cloudflare account with a domain
-- [Email Routing](https://developers.cloudflare.com/email-routing/) enabled for receiving
-- [Email Service](https://developers.cloudflare.com/email-service/) enabled for sending
-- [Workers AI](https://developers.cloudflare.com/workers-ai/) enabled (for the agent)
-- [Cloudflare Access](https://developers.cloudflare.com/cloudflare-one/policies/access/) configured for deployed/shared environments (required in production)
-
-Any user who passes the shared Cloudflare Access policy can access all mailboxes in this app by design. This includes the MCP server at `/mcp` -- external AI tools (Claude Code, Cursor, etc.) connected via MCP can operate on any mailbox by passing a `mailboxId` parameter. There is no per-mailbox authorization; the Cloudflare Access policy is the single trust boundary.
-
-## Architecture
-
-```
-┌──────────────┐     ┌──────────────────┐     ┌─────────────────┐
-│   Browser    │────>│  Hono Worker     │────>│  MailboxDO      │
-│  React SPA   │     │  (API + SSR)     │     │  (SQLite + R2)  │
-│  Agent Panel │     │                  │     └─────────────────┘
-└──────┬───────┘     │  /agents/* ──────┼────>┌─────────────────┐
-       │             │                  │     │  EmailAgent DO  │
-       │ WebSocket   │                  │     │  (AIChatAgent)  │
-       └─────────────┤                  │     │  9 email tools  │
-                     │                  │────>│  Workers AI     │
-                     └──────────────────┘     └─────────────────┘
-```
-
-## License
-
-Apache 2.0 -- see [LICENSE](LICENSE).
+This project is a fork of Cloudflare's [agentic-inbox](https://github.com/cloudflare/agentic-inbox) and is used under the terms of the Apache License, Version 2.0 — see the [LICENSE](LICENSE) file in this repo, which carries the copyright notice for the original code. Ravfia Mail is Ravfia Strategic Operations LLC's product built on that code.
