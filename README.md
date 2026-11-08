@@ -53,4 +53,4 @@ Use one deploy route only. If the Worker is also connected to GitHub in the Clou
 
 ## License / Notices
 
-This project is a fork of Cloudflare's [agentic-inbox](https://github.com/cloudflare/agentic-inbox) and is used under the terms of the Apache License, Version 2.0 — see the [LICENSE](LICENSE) file in this repo, which carries the copyright notice for the original code. Ravfia Mail is Ravfia Strategic Operations LLC's product built on that code.
+The [LICENSE](LICENSE) file has two parts. Part 1: Ravfia's own additions in this repo are copyright Ravfia Strategic Operations LLC, licensed under the Apache License, Version 2.0. Part 2: the upstream [agentic-inbox](https://github.com/cloudflare/agentic-inbox) code is Cloudflare, Inc.'s, and its license is embedded there word for word, with Cloudflare's copyright notice unchanged.
