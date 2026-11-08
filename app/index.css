@@ -25,3 +25,10 @@ body {
   margin-top: 0.25em;
   margin-bottom: 0.25em;
 }
+
+/* Ravfia brand: gold accent (#F2C230) on the Kumo theme */
+:root {
+  --color-kumo-brand: light-dark(#d9a406, #f2c230);
+  --color-kumo-brand-hover: light-dark(#b88904, #ffd34d);
+  --text-color-kumo-brand: light-dark(#9a7414, #f2c230);
+}

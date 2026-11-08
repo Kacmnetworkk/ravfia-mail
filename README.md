@@ -1,6 +1,6 @@
 <div align="center">
-  <h1>Agentic Inbox</h1>
-  <p><em>A self-hosted email client with an AI agent, running entirely on Cloudflare Workers</em></p>
+  <h1>Ravfia Mail</h1>
+  <p><em>Ravfia Strategic Operations LLC email — a self-hosted email client with an AI agent, running entirely on Cloudflare Workers. Based on Cloudflare's Agentic Inbox (Apache 2.0).</em></p>
 </div>
 
 Agentic Inbox lets you send, receive, and manage emails through a modern web interface -- all powered by your own Cloudflare account. Incoming emails arrive via [Cloudflare Email Routing](https://developers.cloudflare.com/email-routing/), each mailbox is isolated in its own [Durable Object](https://developers.cloudflare.com/durable-objects/) with a SQLite database, and attachments are stored in [R2](https://developers.cloudflare.com/r2/).

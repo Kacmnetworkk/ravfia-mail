@@ -68,6 +68,11 @@ export default function Header() {
 				className="md:hidden shrink-0"
 			/>
 
+			<div className="hidden md:flex items-center gap-2 shrink-0 select-none">
+				<span className="bg-black text-[#F2C230] font-extrabold text-sm px-1.5 py-0.5 leading-none">R</span>
+				<span className="font-bold tracking-wide text-sm text-kumo-default">RAVFIA <span className="text-kumo-subtle font-semibold">MAIL</span></span>
+			</div>
+
 			{/* Search - full on desktop, collapsible on mobile */}
 			<div
 				className={`flex-1 max-w-lg transition-all flex items-center gap-1 ${
