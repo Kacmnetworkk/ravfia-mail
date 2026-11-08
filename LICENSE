@@ -1,3 +1,31 @@
+Ravfia Mail — License and Notices
+
+This repository has two parts:
+
+1. Ravfia's additions — the changes and additions made by Ravfia
+   Strategic Operations LLC on top of the upstream project. See Part 1.
+2. The upstream project — agentic-inbox by Cloudflare, Inc. See Part 2,
+   which repeats the upstream license word for word, with Cloudflare's
+   copyright notice unchanged.
+
+Ravfia Strategic Operations LLC does not own the upstream code.
+
+=====================================================================
+
+Part 1 — Additions by Ravfia Strategic Operations LLC
+
+Copyright (c) 2026 Ravfia Strategic Operations LLC
+
+The additions and modifications made by Ravfia Strategic Operations
+LLC in this repository are licensed under the Apache License,
+Version 2.0 — the same license as the upstream project. The full
+license text is reproduced in Part 2 below and applies to Ravfia's
+additions the same way it applies to the upstream code.
+
+=====================================================================
+
+Part 2 — Upstream license — agentic-inbox, Copyright Cloudflare, Inc.
+
 
                                  Apache License
                            Version 2.0, January 2004
