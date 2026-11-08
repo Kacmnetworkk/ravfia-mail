@@ -1,6 +1,6 @@
 {
 	"$schema": "node_modules/wrangler/config-schema.json",
-    "name": "wispy-mode-b560",
+	"name": "ravfia-mail",
 	"compatibility_date": "2025-11-28",
 	"main": "./workers/app.ts",
 	"observability": {
@@ -13,7 +13,7 @@
 		// Production deploys must also define POLICY_AUD and TEAM_DOMAIN.
 		// TEAM_DOMAIN may be the base Access URL or the full /cdn-cgi/access/certs URL.
 		// The worker now fails closed outside local development if Access is not configured.
-		"DOMAINS": "example.com",
+		"DOMAINS": "ravfiastrategic0perations.com",
 		"EMAIL_ADDRESSES": []
 	},
 	"send_email": [
@@ -25,8 +25,8 @@
 	"r2_buckets": [
 		{
 			"binding": "BUCKET",
-			"bucket_name": "agentic-inbox",
-			"preview_bucket_name": "agentic-inbox"
+			"bucket_name": "ravfia-mail",
+			"preview_bucket_name": "ravfia-mail"
 		}
 	],
 	"ai": {
